@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container-fluid">
+  <div class="container-fluid">
+    <div class="jumbotron container-fluid" style="background-color:#F2F1EF">
+      <div class="jumbotron-contents">
+	<center>
+	  <h3>bitscramblr (beta)</h3>
+	  <h4>Turn pseudoanonymous Bitcoin transactions into anonymous Bitcoin transactions</h4>
+	</center>
+	<div class="panel" style="background-color:#D2D7D3">
+	  <div class="container-fluid">
+	    <!-- BEGIN FORM -->
+	    <form action="" method="post">
+	      <h3>Destination Address:</h3>
+	      {% if errors and errors.get('destination') %}
+	      <div class="form-group has-error has-feedback">
+		<label class="control-label" for="inputError0">Please enter a valid bitcoin address</label>
+		<input class="form-control" name="destination" id="inputError0">
+		<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+	      </div>
+	      {% else %}
+	      <input class="form-control" name="destination" placeholder="Enter a valid bitcoin address">
+	      {% endif %}
+	      
+	      <div class="row">
+		<div class="col-md-6">
+		  <h3>Amount to send:</h3>
+		  {% if errors and errors.get('amount') %}
+		  <div class="form-group has-error has-feedback">
+		    <label class="control-label" for="inputError1">Please enter an amount above 0.01 and below 1</label>
+		    <input class="form-control" name="amount" id="inputError1">
+		    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+		  </div>
+		  {% else %}
+		  <div class="input-group">
+		    <input class="form-control" name="amount" placeholder="Minimum 0.01 BTC, Maximum 1 BTC">
+		    <span class="input-group-addon">BTC</span>
+		  </div> 
+		  {% endif %}
+		</div>
+		<div class="col-md-6" data-toggle="tooltip" data-placement="bottom" title="(Recommended) Bitscramblr can deliver the transaction in chunks from multiple addresses for additional security.">
+		  <br>
+		  <h4 align="center">Allow delivery from multiple addresses:</h4>
+	
+		  <center>
+		    <label class="toggle">
+		      <input name="multiple" type="checkbox" checked>
+		      <span class="handle"></span>
+		    </label>
+		  </center>
+		</div>
+	      </div>
+	      <!-- End Row -->
+	      <br>
+	      <center>
+		<button type="submit" class="btn btn-default btn-lg">
+		  Next
+		</button>
+	      </center>
+	      <br>
+	    </form>
+	    <!-- END FORM -->
+	  </div>
+	</div><!-- end jumbotron panel -->
+      </div><!-- end jumbotron contents -->
+      <div class="row"><!-- begin stats row -->
+	<div class="col-md-6" align="center">
+	  <p>{{txs}} successfully anonymized transactions</p> 
+	</Div>
+	<div class="col-md-6" align="center" data-toggle="tooltip" data-placement="bottom" title="Any transaction over this amount will block until adequately sized inputs are available">
+	  <p>{{swarm_size}} BTC currently in swarm</p>
+	</div>
+      </div><!-- end stats row -->
+    </div><!-- end jumbotron container -->
+    <div class="row"><!-- begin donation row -->
+      <div class="col-md-2" align="center">
+	<img src="https://blockchain.info/qr?data=1HfMPfrRJVrcPygFRoBgt7WgA9iiefmvC9&size=100" class="img-responsive">
+      </div>
+      <div class="col-md-10">
+	<h4>Help keep bitscramblr free!</h4>
+	<p>Donations: 1HfMPfrRJVrcPygFRoBgt7WgA9iiefmvC9</p>
+      </div>
+    </div><!-- end donation row -->
+  </div>
+</div>
+{% endblock %}

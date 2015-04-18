@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container-fluid">
+  <div class="container-fluid">
+    <div class="jumbotron container-fluid" style="background-color:#F2F1EF">
+      <div class="jumbotron-contents">
+	<h3>What is bitscramblr?</h3>
+	<p>
+	  Bitscramblr is an application that will turn pseudoanonymous Bitcoin transactions into
+	  anonymous Bitcoin transactions. It is an extension of the concept of a shared wallet.
+	</p>
+	<p>
+	  Traditional shared wallets operate like this:<br>
+	  <div class="container-fluid">
+	    <img src="{{static('img/shared_wallet.png')}}"/>
+	  </div>
+	</p>
+	<p>
+	  Bitscramblr works like this:<br>
+	  <div class="container-fluid">
+	    <img src="{{static('img/bitscramblr.png')}}"/>
+	  </div>
+	</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

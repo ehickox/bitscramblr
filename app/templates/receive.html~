@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container-fluid">
+  <div class="container">
+    <div class="panel panel-default" style="background-color:#F2F1EF">
+      <div class="panel-heading" style="background-color:#D2D7D3">
+	<h3 class="panel-title"><center>Sending {{amount}} to <b>{{destination}}</b></center></h3>
+      </div>
+      <div class="panel-body" style="background-color:#F2F1EF">
+	<div class="container-fluid">
+	  <div class="alert alert-warning">
+	    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+	    <strong>Warning!</strong> This request will expire in one hour!
+	  </div>
+
+	  <div class="container-fluid">
+	    <div class="row">
+	      <div class="col-md-6">
+		<center>
+		  <img class="img-responsive" src="http://placehold.it/200x200"></img>
+		</center>
+	      </div>
+	      <div class="col-md-6">
+		<p>Please send XXX BTC to:</p>
+		<p>{{receiver}}</p>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

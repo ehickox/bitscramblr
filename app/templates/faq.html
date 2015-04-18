@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container-fluid">
+  <div class="container-fluid">
+    <div class="jumbotron container-fluid" style="background-color:#F2F1EF">
+      <div class="jumbotron-contents">
+	<h3>Frequently Asked Questions</h3>
+	<p>
+	  <h4>How does bitscramblr work?</h4>
+	  Bitscramblr is an application that will turn pseudoanonymous Bitcoin transactions into
+	  anonymous Bitcoin transactions. It is an extension of the concept of a shared wallet.
+	  <br><br>
+	  As proven by researchers at The University of Münster, Germany, many of the existing services
+	  which perform bitcoin anoynmization, do so inadequately:
+	  <br>
+	  <i> 
+	  "In our analysis of Bitcoin Fog we found a clear structure, making it possible to
+	  understand how the service works. This might make it easier for an attacker who has
+	  additional information available to detect outgoing transactions."
+	  </i>
+	  <br>
+	  <i> 
+	    "In the analysis of the service BitLaundry, we found direct connections in the transaction
+	    graph in two of our three experiments, in the last one we directly received half of the
+	    coins, we payed in. Thus, BitLaundry cannot be considered to reliably increase anonymity."
+	  </i>
+	  <br>
+	  <a href="https://www.wi.uni-muenster.de/sites/default/files/public/department/itsecurity/mbc13/mbc13-moeser-paper.pdf">Source</a>
+	  <br><br>
+	  To ensure <strong>complete</strong> anonymity, bitscramblr blocks until adequately sized inputs are available
+	  from a source other than the origin.
+	</p>
+	<p>
+	  <h4>Minimum transaction size?</h4>
+	  We recommend a minimum transaction size of 0.01 BTC. 
+	</p>
+	<p>
+	  <h4>Maximum transaction size?</h4>
+	  Currently, the maximum transaction size is 1 BTC. This will be raised in the future.
+	</p>
+	<p>
+	  <h4>How long do transactions take?</h4>
+	  To ensure complete anonymity, bitscramblr blocks until adequately sized inputs are available
+	  from a source other than the origin. If there is enough BTC in the system, transactions should
+	  happen as fast as a regular bitcoin transaction with standard fees (15-30 minutes).
+	</p>
+	<p>
+	  <h4>What data is kept?</h4>
+	  No data regarding the transaction origin is stored on the server, and as soon as we verify that
+	  a transaction has gone through, all data corresponding to that transaction is deleted. We anonymously
+	  store the number of transactions that have taken place for statistical purposes, and it makes for a
+	  nice way to prove our reliability.
+	</p>
+	<p>
+	  <h4>What are bitscramblr's limitations?</h4>
+	  Bitscramblr is completely, mathematically, anonymous. This means that there is no direct path from
+	  your transaction's origin to its destination. So in that sense, its only limitation is that the
+	  transaction will not go through until there are adequately sized inputs available from another source.
+	</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

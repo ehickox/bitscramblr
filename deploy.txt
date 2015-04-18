@@ -1,0 +1,11 @@
+$ git init
+
+$ git add .
+
+$ git commit -am "first commit"
+
+$ heroku create <app-name>
+
+$ git push heroku master
+
+$ heroku open
