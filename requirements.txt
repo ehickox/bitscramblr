@@ -2,3 +2,6 @@ flask
 gunicorn
 blockchain
 coinbase
+Flask-Script
+Flask-Migrate
+psycopg2
