@@ -16,7 +16,7 @@ def update_balances():
     bc_addresses = blockchain.list_addresses(confirmations=2)
     bc_addresses_by_addr = {}
     for bc_addr in bc_addresses:
-        bc_addresses_by_addr[bc_addr.address] = {'balance':float(float(bc_addr.balance) / float(100000000))}
+        bc_addresses_by_addr[bc_addr.address] ={'balance':float(float(bc_addr.balance) / float(100000000))}
 
     for node in nodes:
         if node.address in bc_addresses_by_addr.keys():
