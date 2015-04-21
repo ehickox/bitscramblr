@@ -176,6 +176,22 @@ def clear_all(destination):
             amt = address.balance - 10000
             blockchain.send(to=destination, amount=amt, from_address=address.address)
 
+def generate_receiver_for_seeding(pending_amt):
+    """                                                                                                                                                                                                    
+    Generates a new receiving address for seeding
+    and does not add a pending transaction to db
+                                                                                                                                                                                                          
+    :return: str the address generated                                                                                                                                                                     
+    """
+    bc_address = blockchain.new_address(label="SEEDING")
+    node = Node(address=bc_address.address, role="seeding", status='pending',
+                balance=bc_address.balance,
+                pending_amt=pending_amt, label="SEEDING")
+    
+    db.session.add(node)
+    db.session.commit()
+    return bc_address.address
+
 def get_num_transactions():
     """
     Gets the current number of successfully made transactions

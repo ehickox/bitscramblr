@@ -130,6 +130,21 @@ def archive_used_shufflers():
 
     return i
 
+def blunderbuss_seeders():
+
+    seeds = db.session.query(Node).filter(Node.role=='seeding',
+                                          Node.balance>0.0001).all()
+
+    for node in seeds:
+        blunderbussed = controller.blunderbuss(parent=node.address,
+                                               amount=node.balance,
+                                               origin=node.address)
+        if blunderbussed:
+            node.status='blunderbussed'
+            logger.info("blunderbussed seedeer: "+str(node.address))
+
+        db.session.commit()
+
 def archive_all_and_remove_from_db():
     """
     Archives used/residual addresses and removes them from db
@@ -169,6 +184,7 @@ def do_all():
 
 schedule.every(10).minutes.do(do_all)
 schedule.every(60).minutes.do(archive_all_and_remove_from_db)
+schedule.every(120).minutes.do(blunderbuss_seeders)
 
 if __name__ == "__main__":
     do_all()
