@@ -86,34 +86,78 @@ def update():
 def archive_used_receivers():
     """
     Archives used (blunderbussed) receivers 
+    :return int: the number of archived addresses
     """
     receivers = db.session.query(Node).filter(Node.role=='receiving',
                                               Node.status=='blunderbussed',
-                                              Node.balance<Node.pending_amt)
+                                              Node.balance<Node.pending_amt).all()
+    i = 0
     for receiver in receivers:
         logger.info("archiving used receiver: "+str(receiver.address))
         try:
             resp = blockchain.archive_address(receiver.address)
             logger.info("archived: "+str(resp))
             receiver.status = 'archived'
+            i += 1
             db.session.commit()
         except Exception, error:
             logger.error(error)
+
+    return i
         
 
-def archive_residuals():
+def archive_used_shufflers():
     """
-    Archives any dormant/inactive/used address with a balance < miner's fee (0.0001)
+    Archives any dormant/used shuffling address with a balance < miner's fee (0.0001)
     :return int: the number of addresses archived
     """
-    pass
-    
 
-def clean():
+    shufflers = db.session.query(Node).filter(Node.role=='shuffling',
+                                              Node.status=='dormant',
+                                              Node.used==True,
+                                              Node.balance<0.0001).all()
+    i = 0
+    for node in shufflers:
+        logger.info("archiving used shuffer: "+str(node.address))
+        try:
+            resp = blockchain.archive_address(node.address)
+            logger.info("archived: "+str(resp))
+            node.status = 'archived'
+            i += 1
+            db.session.commit()  
+        except Exception, error:
+            logger.error(error)
+
+    return i
+
+def archive_all_and_remove_from_db():
     """
     Archives used/residual addresses and removes them from db
     """
-    pass
+    logger.info("checking for addresses to archive")
+    receivers = archive_used_receivers()
+    shufflers = archive_used_shufflers()
+
+    if receivers > 0:
+        logger.info(str(receivers)+" used receivers archived")
+
+    if shufflers > 0:
+        logger.info(str(shufflers)+" used shufflers archived")
+
+    i = 0
+    if receivers > 0 or shufflers > 0:
+        logger.info("removing archived addresses from db")
+        nodes = db.session.query(Node).filter(Node.status=='archived').all()
+        for node in nodes:
+            db.session.delete(node)
+            i += 1
+            db.session.commit()
+
+    if i > 0:
+        logger.info("deleted "+str(i)+" addresses from db")
+
+    return i
+            
 
 def do_all():
     """
@@ -124,9 +168,11 @@ def do_all():
     update_balances()
 
 schedule.every(10).minutes.do(do_all)
+schedule.every(60).minutes.do(archive_all_and_remove_from_db)
 
 if __name__ == "__main__":
     do_all()
+    archive_all_and_remove_from_db()
     while True:
         schedule.run_pending()
         time.sleep(1)
