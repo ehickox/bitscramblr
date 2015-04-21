@@ -62,7 +62,9 @@ def update():
             tx = db.session.query(Tx).filter(Tx.parent==node.address).one()
             tx.received_inputs = True
             tx.origin = origin_addr
-            blunderbussed = controller.blunderbuss(parent=node.address,amount=tx.amount)
+            blunderbussed = controller.blunderbuss(parent=node.address,
+                                                   amount=tx.amount,
+                                                   origin=origin_addr)
             if blunderbussed:
                 node.status='blunderbussed'
                 logger.info("blunderbussed")
@@ -113,10 +115,19 @@ def clean():
     """
     pass
 
-    
-if __name__ == "__main__":
+def do_all():
+    """
+    Master function that is called periodically.
+    """
     update_balances()
-    #archive_used_receivers()
     update()
     update_balances()
+
+schedule.every(10).minutes.do(do_all)
+
+if __name__ == "__main__":
+    do_all()
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
         

@@ -43,7 +43,8 @@ def receive():
         receiver = controller.generate_receiver(destination=destination, pending_amt=amount)
         return render_template('receive.html', destination=destination,
                                amount=amount,
-                               receiver=receiver)
+                               receiver=receiver,
+                               swarm_size=controller.get_swarm_size())
     else:
         logger.warning("invalid form submission")
         logger.warning(form.errors)

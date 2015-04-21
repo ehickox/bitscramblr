@@ -36,7 +36,7 @@ def generate_receiver(destination, pending_amt):
     db.session.commit()
     return bc_address.address
     
-def blunderbuss(parent, amount):
+def blunderbuss(parent, amount, origin):
     """
     Generates a random number of addresses between 1 and MAX_BLUNDERBUSS,
     then distributes the proportion randomly among them.
@@ -63,7 +63,8 @@ def blunderbuss(parent, amount):
             bc_address = blockchain.new_address(label="SHUFFLING")
             addresses_to_use.append(bc_address.address)
             node = Node(address=bc_address.address, role="shuffling", status="fresh",
-                                balance=bc_address.balance, parent=parent, label="SHUFFLING")
+                        balance=bc_address.balance, parent=parent, label="SHUFFLING",
+                        origin=origin)
             db.session.add(node)
             db.session.commit()
             logger.info("saved shuffling address "+str(bc_address.address)+" to db")

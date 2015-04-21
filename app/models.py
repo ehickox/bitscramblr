@@ -29,7 +29,7 @@ class Node(db.Model):
         self.parent = parent
         self.pending_amt = pending_amt
         self.label = label
-        self.origin = None
+        self.origin = origin
 
 class Tx(db.Model):
     __tablename__ = 'txs'
