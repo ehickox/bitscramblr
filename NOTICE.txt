@@ -1,0 +1,6 @@
+bitscramblr
+Copyright 2015 Eli Hickox
+
+This product is a derivative of bitscramblr (http://www.bitscramblr.com)
+
+To use the trusted original version, please go to http://www.bitscramblr.com.
