@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container-fluid">
+  <div class="container-fluid">
+    <div class="jumbotron container-fluid" style="background-color:#F2F1EF">
+      <div class="jumbotron-contents">
+	<h3>Bitscrambl your applications!</h3>
+	<p>
+	  Want to provide anonymous Bitcoin transactions for your users? Now you
+	  can with Bitscramblr's API!
+	</p>
+	<p>
+	  It's as simple as sending a GET request to http://www.bitscramblr.com/api/receive
+	</p>
+	<p>
+	  Include parameters:
+	  <br>
+	  Destination
+	  <br>
+	  Amount
+	</p>
+	<p>
+	  We'll generate a Bitcoin address that you can give to your users. From there, once the
+	  address we provide has been filled, we'll send Bitcoin to the destination you provide.
+	</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

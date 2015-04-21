@@ -34,6 +34,10 @@ def about():
 def faq():
     return render_template('faq.html')
 
+@app.route('/api')
+def api():
+    return render_template('api.html')
+
 @app.route('/receive')
 def receive():
     destination = request.args.get('destination')
