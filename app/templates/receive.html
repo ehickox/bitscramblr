@@ -33,10 +33,10 @@
 		  it will not be processed until adequately sized inputs are available
 		  from another source.
 		</p>
-		{% else %}
+		{% elif amount < swarm_size %}
 		<p>
 		  Your transaction is smaller than the current swarm size, so it should
-		  be processed as soon as we confirm the address on the left has {{amount}} BTC.
+		  be processed as soon as we confirm the address above has {{amount}} BTC.
 		</p>
 		{% endif %}
 	      </div>
@@ -47,7 +47,6 @@
     </div>
   </div>
 </div>
-<br>
 <br>
 <br>
 <br>
