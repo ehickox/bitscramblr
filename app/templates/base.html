@@ -60,6 +60,43 @@
     {% block body %}
     {% endblock %}
 
+    <br>
+    <div class="row">
+      <div class="col-md-12">
+	<div class="footer">
+	  <div class="container">
+	    <div class="clearfix">
+	      <div class="footer-logo">
+		<a href="#">bitscramblr</a>
+	      </div>
+	      <dl class="footer-nav">
+		<dt class="nav-title">INFO</dt>
+		<dd class="nav-item">
+		  <a href="{{ url_for('about') }}">About</a>
+		</dd>
+		<dd class="nav-item">
+		  <a href="{{ url_for('faq') }}">FAQ</a>
+		</dd>
+	      </dl>
+	      <dl class="footer-nav">
+		<dt class="nav-title">DEVELOPER</dt>
+		<dd class="nav-item">
+		  <a href="https://github.com/ehickox2012/bitscramblr">Source Code</a>
+		</dd>
+		<dd class="nav-item">
+		  <a href="{{ url_for('api') }}">API</a>
+		</dd>
+		<dd class="nav-item">
+		  <a href="https://github.com/ehickox2012/bitscramblr/blob/master/LICENSE.txt">License</a>
+		</dd>
+	      </dl>
+	    </div>
+	    <div class="footer-copyright text-center">Copyright 2015 bitscramblr</div>
+	  </div>
+	</div>
+      </div>
+    </div>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="{{ static('js/vendors/jquery-2.1.0.min.js') }}"><\/script>')</script>
 
