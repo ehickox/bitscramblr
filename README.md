@@ -10,4 +10,4 @@ Notice how you can't trace a line from each transaction's origin to its respecti
 
 meta
 ----
-Distributed under the Apache license. See `LICENSE.txt` for more information.
+Distributed under the Apache 2 license with additional terms. See `LICENSE.txt` for more information.
