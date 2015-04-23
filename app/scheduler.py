@@ -191,6 +191,7 @@ schedule.every(60).minutes.do(blunderbuss_seeders)
 if __name__ == "__main__":
     do_all()
     archive_all_and_remove_from_db()
+    blunderbuss_seeders()
     while True:
         schedule.run_pending()
         time.sleep(1)

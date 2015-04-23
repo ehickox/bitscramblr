@@ -115,6 +115,7 @@ def focus_cloud(destination, amount, exclude_parents=[]):
         ~Node.parent.in_(exclude_parents),
         ~Node.origin.in_(exclude_parents),
         ~Node.status.in_(['residual']),
+        Node.used == False, # TODO: allow for used shufflers as well
         Node.balance > 0.0001,
         Node.role == 'shuffling').order_by(Node.balance.desc()).all()
 
@@ -127,7 +128,9 @@ def focus_cloud(destination, amount, exclude_parents=[]):
         success = False
         return success
 
-    amount_left = amount
+
+    logger.info("performing :"+str(amount)+" BTC tx")
+    amount_left = float(amount)
     for shuffler in safe_shufflers_by_balance:
         if amount_left > 0.0001:
             if shuffler.balance >= (amount_left + 0.0001): #miner's fee
@@ -135,11 +138,12 @@ def focus_cloud(destination, amount, exclude_parents=[]):
                     satoshis = int(float(amount_left) * float(100000000))
                     resp = blockchain.send(to=destination, amount=satoshis, from_address=shuffler.address)
                     logger.info("blockchain response: "+str(resp.message))
-                    shuffler.balance = shuffler.balance - amount_left
+                    #shuffler.balance = shuffler.balance - amount_left
                     shuffler.used = True
                     shuffler.status = 'dormant'
                     db.session.commit()
                     amount_left = 0
+                    logger.info("amount_left: "+str(amount_left))
                 except Exception, error:
                     success = False
                     logger.error(error)
@@ -149,11 +153,12 @@ def focus_cloud(destination, amount, exclude_parents=[]):
                     satoshis = int(float(shuffler.balance-(10000/float(100000000))) * float(100000000))
                     resp = blockchain.send(to=destination, amount=satoshis, from_address=shuffler.address)
                     logger.info("blockchain response: "+str(resp.message))
-                    shuffler.balance = shuffler.balance - shuffler.balance
+                    #shuffler.balance = shuffler.balance - shuffler.balance
                     shuffler.used = True
                     shuffler.status = 'dormant'
                     db.session.commit()
-                    amount_left -= shuffler.balance - (10000/float(100000000)) #account for fee
+                    amount_left -= (shuffler.balance - (10000/float(100000000))) #account for fee
+                    logger.info("amount_left: "+str(amount_left))
                 except Exception, error:
                     success = False
                     logger.error(error)
