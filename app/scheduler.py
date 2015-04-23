@@ -73,6 +73,8 @@ def update():
     # Check all pending txs whose received inputs = True
     pending_txs = db.session.query(Tx).filter(Tx.received_inputs==True,
                                               Tx.outputs_sent==False).all()
+    
+    logger.info(str(len(pending_txs))+" pending transactions")
     for tx in pending_txs:
         sent = controller.focus_cloud(destination=tx.destination,
                                       amount=tx.amount,
@@ -80,7 +82,7 @@ def update():
         if sent:
             tx.outputs_sent = True
             logger.info("tx sent")
-
+            
         db.session.commit()
 
 def archive_used_receivers():
@@ -184,7 +186,7 @@ def do_all():
 
 schedule.every(10).minutes.do(do_all)
 schedule.every(60).minutes.do(archive_all_and_remove_from_db)
-schedule.every(120).minutes.do(blunderbuss_seeders)
+schedule.every(60).minutes.do(blunderbuss_seeders)
 
 if __name__ == "__main__":
     do_all()

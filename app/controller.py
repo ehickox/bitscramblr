@@ -129,39 +129,46 @@ def focus_cloud(destination, amount, exclude_parents=[]):
 
     amount_left = amount
     for shuffler in safe_shufflers_by_balance:
-        if shuffler.balance >= (amount_left + 0.0001): #miner's fee
-            try:
-                satoshis = int(float(amount_left) * float(100000000))
-                resp = blockchain.send(to=destination, amount=satoshis, from_address=shuffler.address)
-                logger.info(resp.message)
-                shuffler.balance = shuffler.balance - amount_left
-                shuffler.used = True
-                shuffler.status = 'dormant'
-                db.session.commit()
-                amount_left -= amount_left
-            except Exception, error:
-                success = False
-                logger.error(error)
+        if amount_left > 0.0001:
+            if shuffler.balance >= (amount_left + 0.0001): #miner's fee
+                try:
+                    satoshis = int(float(amount_left) * float(100000000))
+                    resp = blockchain.send(to=destination, amount=satoshis, from_address=shuffler.address)
+                    logger.info("blockchain response: "+str(resp.message))
+                    shuffler.balance = shuffler.balance - amount_left
+                    shuffler.used = True
+                    shuffler.status = 'dormant'
+                    db.session.commit()
+                    amount_left = 0
+                except Exception, error:
+                    success = False
+                    logger.error(error)
                 
-        elif shuffler.balance < (amount_left + 0.0001) and shuffler.balance > 0.0002:
-            try:
-                satoshis = int(float(shuffler.balance-(10000/float(100000000))) * float(100000000))
-                resp = blockchain.send(to=destination, amount=satoshis, from_address=shuffler.address)
-                logger.info(resp.message)
-                shuffler.balance = shuffler.balance - shuffler.balance
+            elif shuffler.balance < (amount_left + 0.0001) and shuffler.balance > 0.0002:
+                try:
+                    satoshis = int(float(shuffler.balance-(10000/float(100000000))) * float(100000000))
+                    resp = blockchain.send(to=destination, amount=satoshis, from_address=shuffler.address)
+                    logger.info("blockchain response: "+str(resp.message))
+                    shuffler.balance = shuffler.balance - shuffler.balance
+                    shuffler.used = True
+                    shuffler.status = 'dormant'
+                    db.session.commit()
+                    amount_left -= shuffler.balance - (10000/float(100000000)) #account for fee
+                except Exception, error:
+                    success = False
+                    logger.error(error)
+                    
+            else:
+                # Shuffler only has residuals left
+                logger.info("tagging residual shuffler: "+str(shuffler.address))
                 shuffler.used = True
-                shuffler.status = 'dormant'
+                shuffler.status = 'residual'
                 db.session.commit()
-                amount_left -= shuffler.balance - (10000/float(100000000)) #account for fee
-            except Exception, error:
-                success = False
-                logger.error(error)
-                
         else:
-            # Shuffler only has residuals left
-            shuffler.used = True
-            shuffler.status = 'residual'
-            db.session.commit()
+            logger.info("tx completed and/or amount_left <= 0.0001")
+            success = True
+            return success
+                
 
     return success
 
