@@ -135,6 +135,7 @@ def archive_used_shufflers():
 def blunderbuss_seeders():
 
     seeds = db.session.query(Node).filter(Node.role=='seeding',
+                                          Node.status!='blunderbussed',
                                           Node.balance>0.0001).all()
 
     for node in seeds:
