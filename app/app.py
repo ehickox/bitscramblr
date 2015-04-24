@@ -1,5 +1,6 @@
 from flask import Flask, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext import restful
 import os
 import sys
 import logging
@@ -7,6 +8,8 @@ import logging
 app = Flask(__name__)
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'SECRET_KEY_CH1ng3me'
+
+api = restful.Api(app)
 
 # db config
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
@@ -33,5 +36,5 @@ app.jinja_env.globals['static'] = (
 
 import views
 
-
+api.add_resource(views.Receiver, '/api/receive') 
 

@@ -1,5 +1,7 @@
 from flask import render_template, request, Response, redirect, url_for
-from app import app, logger
+from flask.ext import restful
+from flask.ext.restful import reqparse
+from app import app, logger, api
 from forms import RequestForm
 import controller
 import blockchain
@@ -55,3 +57,24 @@ def receive():
     return render_template('index.html', form=form, errors=form.errors,
                            txs=controller.get_num_transactions(),
                            swarm_size=controller.get_swarm_size())
+
+# Begin RESTful API 
+parser = reqparse.RequestParser()
+parser.add_argument('destination', type=str, help='The destination of the anonymous transaction')
+parser.add_argument('amount', type=float, help='The amount in BTC to send anonymously')
+
+class Receiver(restful.Resource):
+    def get(self):
+        args = parser.parse_args()
+        destination = args.get('destination')
+        amount = args.get('amount')
+        form = RequestForm(destination, amount, multiple="on")
+        if form.errors == {}:
+            receiver = controller.generate_receiver(destination=destination,
+                                                    pending_amt=amount)
+            resp = {'address':receiver,
+                    'destination':destination,
+                    'amount':amount}
+            return resp, 201
+        else:
+            return form.errors, 400

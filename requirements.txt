@@ -6,3 +6,4 @@ Flask-Script
 Flask-Migrate
 psycopg2
 schedule
+flask-restful
