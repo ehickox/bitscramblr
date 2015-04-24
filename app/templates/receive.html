@@ -27,16 +27,16 @@
 		<p>Please send {{amount}} BTC to:</p>
 		<p>{{receiver}}</p>
 		<br>
-		{% if amount >= swarm_size %}
+		{% if amount|float >= swarm_size|float %}
 		<p>
 		  Since your transaction is larger than the current swarm size of {{swarm_size}} BTC,
 		  it will not be processed until adequately sized inputs are available
 		  from another source.
 		</p>
-		{% elif amount < swarm_size %}
+		{% else %}
 		<p>
 		  Your transaction is smaller than the current swarm size, so it should
-		  be processed as soon as we confirm the address above has {{amount}} BTC.
+		  be processed as soon as we confirm {{receiver}} has {{amount}} BTC.
 		</p>
 		{% endif %}
 	      </div>
