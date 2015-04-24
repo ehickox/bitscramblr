@@ -115,7 +115,6 @@ def focus_cloud(destination, amount, exclude_parents=[]):
         ~Node.parent.in_(exclude_parents),
         ~Node.origin.in_(exclude_parents),
         ~Node.status.in_(['residual']),
-        Node.used == False, # TODO: allow for used shufflers as well
         Node.balance > 0.0001,
         Node.role == 'shuffling').order_by(Node.balance.desc()).all()
 
