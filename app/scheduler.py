@@ -133,6 +133,9 @@ def archive_used_shufflers():
     return i
 
 def blunderbuss_seeders():
+    """
+    Blunderbusses any seeders that are ready
+    """
 
     seeds = db.session.query(Node).filter(Node.role=='seeding',
                                           Node.status!='blunderbussed',
@@ -175,6 +178,23 @@ def archive_all_and_remove_from_db():
         logger.info("deleted "+str(i)+" addresses from db")
 
     return i
+
+def protect_user_privacy():
+    """
+    Goes through past successful transactions and removes origin data
+    :return int: the number of transactions that were cleaned
+    """
+    txs_to_clean = db.session.query(Tx).filter(Tx.received_inputs==True,
+                                               Tx.outputs_sent==True,
+                                               Tx.origin!=None).all()
+    i = 0
+    for tx in txs_to_clean:
+        tx.origin = None
+        i += 1
+        db.session.commit()
+
+    logger.info("cleaned "+str(i)+" transactions")
+    return i
             
 
 def do_all():
@@ -188,6 +208,11 @@ def do_all():
 schedule.every(10).minutes.do(do_all)
 schedule.every(60).minutes.do(archive_all_and_remove_from_db)
 schedule.every(60).minutes.do(blunderbuss_seeders)
+
+# HERE IS WHERE USER PRIVACY IS PROTECTED:
+# A weekly period was chosen because it allows for ample time
+# to bring up any potential problems if a transaction goes awry
+schedule.every().thursday.do(protect_user_privacy)
 
 if __name__ == "__main__":
     do_all()
