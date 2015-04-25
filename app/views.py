@@ -78,3 +78,18 @@ class Receiver(restful.Resource):
             return resp, 201
         else:
             return form.errors, 400
+
+class Seeder(restful.Resource):
+    def get(self):
+        args = parser.parse_args()
+        amount = args.get('amount')
+        form = RequestForm('1HfMPfrRJVrcPygFRoBgt7WgA9iiefmvC9',
+                           amount,
+                           multiple='on')
+        if form.errors == {}:
+            seeder = controller.generate_receiver_for_seeding(amount)
+            resp = {'address':seeder,
+                    'amount':amount}
+            return resp, 201
+        else:
+            return form.errors, 400

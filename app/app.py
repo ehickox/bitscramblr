@@ -37,4 +37,4 @@ app.jinja_env.globals['static'] = (
 import views
 
 api.add_resource(views.Receiver, '/api/receive') 
-
+api.add_resource(views.Seeder, '/api/seed')
