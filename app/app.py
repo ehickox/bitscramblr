@@ -6,7 +6,7 @@ import sys
 import logging
 
 app = Flask(__name__)
-app.config['DEBUG'] = True
+#app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'SECRET_KEY_CH1ng3me'
 
 api = restful.Api(app)
