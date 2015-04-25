@@ -7,27 +7,35 @@
       <div class="jumbotron-contents">
 	<h3>What is bitscramblr?</h3>
 	<p>
-	  Bitscramblr is an application that will turn pseudoanonymous Bitcoin transactions into
-	  anonymous Bitcoin transactions. It is an extension of the concept of a shared wallet.
+	  Bitscramblr is an application that allows you to send Bitcoin anonymously. It differs
+	  from many mixing services in existence in that a transaction will not be sent until
+	  adequately sized inputs are available from another source. Basically what this
+	  means is: there is no path from a transaction's origin to its destination.
+	  To illustrate, see a visualization of 10 transactions using bitscramblr:
 	</p>
 	<center>
 	<p>
-	  <h2>Traditional shared wallets operate like this:</h2><br>
-	  <div class="container-fluid">
-	    <div class="container">
-	      <img src="{{static('img/shared_wallet.png')}}" class="img-rounded img-responsive">
-	    </div>
-	  </div>
-	</p>
-	<p>
-	  <h2>Bitscramblr works like this:</h2><br>
 	  <div class="container-fluid">
 	    <div class="container">
 	      <img src="{{static('img/bitscramblr.png')}}" class="img-rounded img-responsive">
 	    </div>
 	  </div>
 	</p>
+	<p>
+	  Now compare that with a 10 transaction visualization from another comparable, but
+	  poorly implemented Bitcoin mixing service:<br>
+	  <div class="container-fluid">
+	    <div class="container">
+	      <img src="{{static('img/other_mixer.png')}}" class="img-rounded img-responsive">
+	    </div>
+	  </div>
+	</p>
 	</center>
+	<p>
+	  Notice how you can't trace a line from each transaction's origin to its respective
+	  destination? That's the beauty of bitscramblr, and it's what keeps bitscramblr's
+	  users completely anonymous.
+	</p>
       </div>
     </div>
   </div>

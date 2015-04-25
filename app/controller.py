@@ -176,17 +176,6 @@ def focus_cloud(destination, amount, exclude_parents=[]):
 
     return success
 
-
-def clear_all(destination):
-    """
-    Sends all addresses balances to the specified destination
-    """
-    bc_addresses = blockchain.list_addresses(confirmations=2)
-    for address in bc_addresses:
-        if address.balance > 50000:
-            amt = address.balance - 10000
-            blockchain.send(to=destination, amount=amt, from_address=address.address)
-
 def generate_receiver_for_seeding(pending_amt):
     """                                                                                                                                                                                                    
     Generates a new receiving address for seeding
