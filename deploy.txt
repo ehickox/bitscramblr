@@ -9,3 +9,8 @@ $ heroku create <app-name>
 $ git push heroku master
 
 $ heroku open
+
+
+python manage.py db init
+python manage.py db migrate
+python manage.py db upgrade
