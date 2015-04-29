@@ -1,11 +1,11 @@
 import schedule
 import time
 import os
-import controller
-from app import db
-from controller import logger, blockchain
+from app import controller
+from app import db, logger
+from app.controller import blockchain
 from blockchain import blockexplorer
-from models import Node, Tx
+from app.models import Node, Tx
 
 def update_balances():
     """
@@ -102,7 +102,7 @@ def archive_used_receivers():
             receiver.status = 'archived'
             i += 1
             db.session.commit()
-        except Exception, error:
+        except Exception as error:
             logger.error(error)
 
     return i
@@ -127,7 +127,7 @@ def archive_used_shufflers():
             node.status = 'archived'
             i += 1
             db.session.commit()  
-        except Exception, error:
+        except Exception as error:
             logger.error(error)
 
     return i

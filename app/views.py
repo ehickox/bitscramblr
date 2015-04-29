@@ -1,9 +1,10 @@
 from flask import render_template, request, Response, redirect, url_for
 from flask.ext import restful
 from flask.ext.restful import reqparse
-from app import app, logger, api
-from forms import RequestForm
-import controller
+from app import logger, api
+from app.forms import RequestForm
+from app import controller
+from app import app
 import blockchain
 
 @app.route('/', methods=['GET', 'POST'])

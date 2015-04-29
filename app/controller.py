@@ -5,8 +5,9 @@ import coinbase
 import random
 from blockchain.wallet import Wallet as BlockchainWallet
 from coinbase.client import Client as CoinbaseClient
-from models import Node, Tx
-from app import db, logger
+
+from app import logger, db
+from app.models import Tx, Node
 
 blockchain = None
 bc_primary = os.environ['BLOCKCHAIN_PRIMARY']
@@ -68,7 +69,7 @@ def blunderbuss(parent, amount, origin):
             db.session.add(node)
             db.session.commit()
             logger.info("saved shuffling address "+str(bc_address.address)+" to db")
-        except Exception, error:
+        except Exception as error:
             success = False
             logger.error("error while generating shufflers")
             logger.error(error)
@@ -93,7 +94,7 @@ def blunderbuss(parent, amount, origin):
             node = db.session.query(Node).filter(Node.address==addr).one()
             # DO NOT UPDATE BALANCE HERE
             db.session.commit()
-    except Exception, error:
+    except Exception as error:
         success = False
         logger.error(error)
         
@@ -143,7 +144,7 @@ def focus_cloud(destination, amount, exclude_parents=[]):
                     db.session.commit()
                     amount_left = 0
                     logger.info("amount_left: "+str(amount_left))
-                except Exception, error:
+                except Exception as error:
                     success = False
                     logger.error(error)
                 
@@ -158,7 +159,7 @@ def focus_cloud(destination, amount, exclude_parents=[]):
                     db.session.commit()
                     amount_left -= (shuffler.balance - (10000/float(100000000))) #account for fee
                     logger.info("amount_left: "+str(amount_left))
-                except Exception, error:
+                except Exception as error:
                     success = False
                     logger.error(error)
                     

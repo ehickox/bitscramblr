@@ -15,3 +15,4 @@ Notice how you can't trace a line from each transaction's origin to its respecti
 meta
 ----
 Distributed under the Apache 2 license with additional terms. See `LICENSE.txt` for more information.
+Tested on Python 3.4.3

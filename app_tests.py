@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import app
 import unittest
+import app
 from app import controller, forms
 
 class FirstTestCase(unittest.TestCase):
@@ -9,6 +10,7 @@ class FirstTestCase(unittest.TestCase):
         self.app = app.app.test_client()
         self.valid_form = forms.RequestForm("1HasACSXrKs42u9ySoSEDRNSCHRSWPpYWT",
                                             "0.4", None)
+        
         self.invalid_form = forms.RequestForm('abc123', '-0.1', None)
 
     def tearDown(self):
