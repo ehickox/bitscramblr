@@ -1,3 +1,4 @@
+import datetime
 from app import db
 
 class Node(db.Model):
@@ -42,11 +43,14 @@ class Tx(db.Model):
     outputs_sent = db.Column(db.Boolean)
     origin = db.Column(db.String)
     tx_hash = db.Column(db.String)
+    timestamp = db.Column(db.DateTime)
 
     def __init__(self, parent, amount,
-                 destination, received_inputs=False, outputs_sent=False):
+                 destination, received_inputs=False,
+                 outputs_sent=False):
         self.parent = parent
         self.amount = amount
         self.destination = destination
         self.received_inputs = received_inputs
         self.outputs_sent = outputs_sent
+        self.timestamp = datetime.today()

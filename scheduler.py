@@ -1,4 +1,5 @@
 import schedule
+import datetime
 import time
 import os
 from app import controller
@@ -178,6 +179,35 @@ def archive_all_and_remove_from_db():
         logger.info("deleted "+str(i)+" addresses from db")
 
     return i
+
+def delete_expired():
+    """
+    Deletes from db receivers and transactions who are older than 
+    the expiration limit (7 days). Also archives addresses.
+    """
+    now = datetime.today()
+    week_ago = now - datetime.timedelta(days=7)
+    expired_txs = db.session.query(Tx).filter(Tx.received_inputs==False,
+                                              Tx.outputs_sent==False,
+                                              Tx.timestamp<week_ago).all()
+    
+    logger.info("deleting "+str(len(expired_txs))+" expired txs and archiving their receivers")
+    i = 0
+    for tx in expired_txs:
+        receiver = db.session.query(Node).filter(Node.address==tx.parent).one()
+        if receiver:
+            try:
+                resp = blockchain.archive_address(receiver.address)
+                logger.info("archived expired receiver: "+str(receiver.address))
+                db.session.delete(receiver)
+                db.session.delete(tx)
+                logger.info("successfully deleted tx and receiver")
+                i += 1
+            except Exception as error:
+                logger.error(error)
+
+    return i
+        
 
 def protect_user_privacy():
     """
