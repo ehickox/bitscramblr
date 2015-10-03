@@ -8,7 +8,7 @@ To illustrate, see a visualization of 5 transactions using **bitscramblr**:
 
 Now compare that with a 5 transaction visualization from another comparable Bitcoin mixing service:
 
-![other_mixer](http://www.elihickox.com/static/img/good_implementation.png)
+![other_mixer](http://www.elihickox.com/static/img/bad_implementation.png)
 
 Notice how you can't trace a line from each transaction's origin to its respective destination? That's the beauty of **bitscramblr**, and it's what keeps **bitscramblr's** users completely anonymous.
 
